@@ -1,0 +1,8 @@
+@tailwind base;
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding: 2em;
+}
+@tailwind components;
+@tailwind utilities;

@@ -1,0 +1,145 @@
+import { useEffect, useState,useRef } from 'react';
+import "./css/index.css";
+import Nav from '../components/nav';
+import Game from "./components/game";
+import { importFiles,shuffleMappings,getInitialData } from "../../utils/helper_functions"
+import { MyStates,ResultIndexType } from '../../types/ui.types'
+
+const Index = () => {
+  
+  // const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [audioBuffers, setAudioBuffers] = useState<AudioBuffer[]>([]);
+  const [counter, setCounter] = useState<number>(0);
+  const [audioFileNames,setAudioFileNames] = useState<string[]>()
+  const [paused,setPaused] = useState(true)
+  const [isFullScreen,setIsFullScreen] = useState(false)
+  const [toggleNav,setToggleNav] = useState(true)
+  const timeIdRef = useRef<number | null>(null);
+  const [currState,setCurrState] = useState<MyStates>(MyStates.loading)
+  const [currInd,setCurrInd] = useState(0)
+  const [initialData,setInitialData] = useState(getInitialData())
+  const zeroIndex = {b: 0,i:0,n:0,g:0,o:0}
+  const [resultIndex,setResultIndex] = useState<any>(zeroIndex)
+  let curr = 0; 
+  let currResultIndex : any = zeroIndex
+  let currInitialData : any = initialData
+  var elem = document.documentElement;
+    
+  /* View in fullscreen */
+  function openFullscreen() {
+      setIsFullScreen(true)
+      elem!.requestFullscreen();
+  }
+  
+  /* Close fullscreen */
+  function closeFullscreen() {
+      setIsFullScreen(false)
+      document!.exitFullscreen();
+  }
+
+  function toggleScreen(){
+      isFullScreen ? closeFullscreen() : openFullscreen()
+  }
+
+  const pauseGame = () =>{
+    setCurrState(MyStates.paused)
+    if(timeIdRef.current != null){
+      clearInterval(timeIdRef.current)
+    }
+  }
+
+  const bingo = () =>{
+    setCurrInd(0)
+    setResultIndex(zeroIndex)
+    setCurrState(MyStates.bingo)
+    setInitialData(getInitialData()  )
+    if(timeIdRef.current != null){
+      clearInterval(timeIdRef.current)
+    }
+    const audioMap = audioFileNames!.reduce((map, key, index) => {
+      map[key] = audioBuffers[index];
+      return map;
+    }, {} as Record<string, AudioBuffer>);
+
+    const shuffledAudio = shuffleMappings(audioMap)
+    setAudioBuffers(Object.values(shuffledAudio))
+    setAudioFileNames(Object.keys(shuffledAudio))
+  }
+  
+  const play = async () => {
+    setCurrState(MyStates.playing)
+    curr = currInd;
+    currResultIndex = resultIndex;
+    timeIdRef.current = setInterval(()=>{
+      if (audioBuffers.length > 0) {
+        const context = new AudioContext();
+        const selectedBuffer = audioBuffers[curr];
+        const source = context.createBufferSource();
+        source.buffer = selectedBuffer;
+        source.connect(context.destination);
+        source.start(0);
+        const value = audioFileNames![curr]
+        location.href = "#"+value[0]+currResultIndex[value[0]]
+        currInitialData[value[0]][currResultIndex[value[0]]] = value
+        setInitialData(currInitialData)
+        currResultIndex[value[0]] += 1
+        setResultIndex(currResultIndex)
+        curr += 1
+        setCurrInd(curr)
+        source.onended = () => {
+          source.disconnect();
+          context.close();
+        };
+      }
+    },7000)
+  };
+
+  useEffect(() => {
+    const fetchAudioBuffers = async () => {
+      const audios = await importFiles()
+      const shuffledAudio = shuffleMappings(audios)
+      const datas = Object.values(shuffledAudio)
+      setAudioFileNames(Object.keys(shuffledAudio))
+      const buffers = await Promise.all(
+        datas.map(async (file) => {
+            const response = await fetch(file);
+            const arrayBuffer = await response.arrayBuffer();
+            const context = new AudioContext();
+            const audioBuffer = await context.decodeAudioData(arrayBuffer);
+            context.close(); 
+            setCounter(d => d + 1)
+            return audioBuffer;
+          })
+      );
+      setAudioBuffers(buffers);
+      setCurrState(MyStates.loaded)
+    };
+
+    fetchAudioBuffers();
+  }, []); 
+
+    return (
+        <div className='h-[100vh] relative flex flex-col '>
+          { currState == MyStates.loading && 
+            <div className='absolute z-40 left-0 top-0 bottom-0 right-0 '>
+                <div className='absolute left-0 right-0 top-0 bottom-0 bg-slate-900 opacity-50'>
+
+                </div>
+                <div className='flex z-50 justify-center absolute left-0 right-0 top-0 bottom-0 '>
+                    <div className=' mt-[100px]'>
+                      <progress className='w-[300px]' value={counter} max={75} />
+                    </div>
+                </div>
+            </div>
+          }
+          <div className={`${currState == MyStates.loading && "blur-[2em]" }`}>
+            <Nav setIsFullScreen={setIsFullScreen} isFullScreen={isFullScreen} toggleNav={toggleNav} toggleScreen={toggleScreen} />
+            <div className={`${toggleNav ? "" : "h-[100vh]"} flex text-white  bg-red-300`}>
+                <Game play={play} bingo={bingo} currState={currState} initialData={initialData} pauseGame={pauseGame} setToggleNav={setToggleNav} toggleNav={toggleNav} />
+            </div>
+          </div>
+        </div>
+    );
+};
+
+export default Index;
