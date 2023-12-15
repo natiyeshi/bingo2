@@ -4,22 +4,29 @@ import Nav from '../components/nav';
 import Game from "./components/game";
 import { importFiles,shuffleMappings,getInitialData } from "../../utils/helper_functions"
 import { MyStates,ResultIndexType } from '../../types/ui.types'
+import History from "../history/index";
+import Profile from "../profile/index";
+import Payment from "../components/payment";
 
 const Index = () => {
+
+  const zeroIndex = {b: 0,i:0,n:0,g:0,o:0}
   
-  // const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [audioBuffers, setAudioBuffers] = useState<AudioBuffer[]>([]);
   const [counter, setCounter] = useState<number>(0);
   const [audioFileNames,setAudioFileNames] = useState<string[]>()
-  const [paused,setPaused] = useState(true)
   const [isFullScreen,setIsFullScreen] = useState(false)
   const [toggleNav,setToggleNav] = useState(true)
   const timeIdRef = useRef<number | null>(null);
   const [currState,setCurrState] = useState<MyStates>(MyStates.loading)
   const [currInd,setCurrInd] = useState(0)
   const [initialData,setInitialData] = useState(getInitialData())
-  const zeroIndex = {b: 0,i:0,n:0,g:0,o:0}
   const [resultIndex,setResultIndex] = useState<any>(zeroIndex)
+
+  const [payment,setPayment] = useState(false)
+  const [showHistory,setShowHistory] = useState(false)
+  const [showProfile,setShowProfile] = useState(false)
+
   let curr = 0; 
   let currResultIndex : any = zeroIndex
   let currInitialData : any = initialData
@@ -95,6 +102,7 @@ const Index = () => {
   };
 
   useEffect(() => {
+    return 
     const fetchAudioBuffers = async () => {
       const audios = await importFiles()
       const shuffledAudio = shuffleMappings(audios)
@@ -120,7 +128,7 @@ const Index = () => {
 
     return (
         <div className='h-[100vh] relative flex flex-col '>
-          { currState == MyStates.loading && 
+          {/* { currState == MyStates.loading && 
             <div className='absolute z-40 left-0 top-0 bottom-0 right-0 '>
                 <div className='absolute left-0 right-0 top-0 bottom-0 bg-slate-900 opacity-50'>
 
@@ -131,11 +139,15 @@ const Index = () => {
                     </div>
                 </div>
             </div>
-          }
-          <div className={`${currState == MyStates.loading && "blur-[2em]" }`}>
-            <Nav setIsFullScreen={setIsFullScreen} isFullScreen={isFullScreen} toggleNav={toggleNav} toggleScreen={toggleScreen} />
+          } */}
+         {showHistory && <History setShowHistory={setShowHistory}  />}
+         {showProfile && <Profile setShowProfile={setShowProfile}  />}
+         {!payment && <Payment setPayment={setPayment}/>}
+          <div className={``}>
+          {/* <div className={`${currState == MyStates.loading && "blur-[2em]" }`}> */}
+            <Nav setIsFullScreen={setIsFullScreen} isFullScreen={isFullScreen} setShowHistory={setShowHistory} setShowProfile={setShowProfile} toggleNav={toggleNav} toggleScreen={toggleScreen} />
             <div className={`${toggleNav ? "" : "h-[100vh]"} flex text-white  bg-red-300`}>
-                <Game play={play} bingo={bingo} currState={currState} initialData={initialData} pauseGame={pauseGame} setToggleNav={setToggleNav} toggleNav={toggleNav} />
+                <Game play={play} audioFileNames={audioFileNames} currInd={currInd} bingo={bingo} currState={currState} initialData={initialData} pauseGame={pauseGame} setToggleNav={setToggleNav} toggleNav={toggleNav} />
             </div>
           </div>
         </div>

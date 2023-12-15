@@ -9,11 +9,13 @@ type Props = {
     bingo : Function,
     currState : MyStates,
     setToggleNav : Function,
-    toggleNav : Boolean
+    toggleNav : Boolean,
+    currInd : number,
+    audioFileNames : any
 }
 
 
-const game = ({play,bingo,pauseGame,currState,setToggleNav,toggleNav,initialData}:Props) => {
+const game = ({play,bingo,audioFileNames,pauseGame,currInd,currState,setToggleNav,toggleNav,initialData}:Props) => {
 
     
 
@@ -24,10 +26,16 @@ const game = ({play,bingo,pauseGame,currState,setToggleNav,toggleNav,initialData
                     <div className='h-full w-full bg-blue-300 rounded-full p-2 '>
                         <div className='h-full w-full bg-blue-500 rounded-full p-2'>
                         <div className='h-full w-full bg-blue-700 rounded-full'>
-                            <div className={`h-full w-full bg-white rounded-full flex circleAnimation`} >
+                            <div className={` ${currState == MyStates.playing && "circleAnimation"} h-full w-full bg-white rounded-full flex  scale-90`} >
 
                                 <div className='m-auto'>
-                                    <p className='text-[80px] capitalize text-black font-bold'>f-2</p>
+                                    <p className='text-[80px] capitalize text-black font-bold'>
+                                        {   audioFileNames! ? 
+                                            currInd == 0 ? "Start" :
+                                            audioFileNames[currInd - 1] : 
+                                            "."
+                                        }
+                                    </p>
                                 </div>
 
                             </div>
@@ -41,13 +49,13 @@ const game = ({play,bingo,pauseGame,currState,setToggleNav,toggleNav,initialData
 
                 <div className='flex px-5 justify-around '>
                     <div className='flex w-[100px] h-[70px] border'> 
-                        <p className='m-auto text-2xl uppercase'> b-4 </p>
+                        <p className='m-auto text-2xl uppercase'> {currInd > 2 ? audioFileNames[currInd - 3] : "."} </p>
                     </div>
                     <div className='flex w-[100px] h-[70px] border'> 
-                        <p className='m-auto text-2xl uppercase'> b-4 </p>
+                        <p className='m-auto text-2xl uppercase'> {currInd > 1 ? audioFileNames[currInd - 2] : "."} </p>
                     </div>
                     <div className='flex w-[100px] h-[70px] border'> 
-                        <p className='m-auto text-2xl uppercase'> b-4 </p>
+                        <p className='m-auto text-2xl uppercase'> {currInd > 0 ? audioFileNames[currInd - 1] : "."} </p>
                     </div>
                 </div>
 
@@ -94,21 +102,15 @@ const game = ({play,bingo,pauseGame,currState,setToggleNav,toggleNav,initialData
                     {initialData.b.map((_:any,index:any) => {
                         return (
                     <div key={index} className='flex gap-2 mx-2'>
-                        <div  id={`b${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl border-2 text-gray-700'>{initialData.b[index]}</div>
-                        <div  id={`i${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl border-2 text-gray-700'>{initialData.i[index]}</div>
-                        <div  id={`n${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl border-2 text-gray-700'>{initialData.n[index]}</div>
-                        <div  id={`g${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl border-2 text-gray-700'>{initialData.g[index]}</div>
-                        <div  id={`o${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl border-2 text-gray-700'>{initialData.o[index]}</div>
+                        <div  id={`b${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 text-gray-700'>{initialData.b[index]}</div>
+                        <div  id={`i${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 text-gray-700'>{initialData.i[index]}</div>
+                        <div  id={`n${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 text-gray-700'>{initialData.n[index]}</div>
+                        <div  id={`g${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 text-gray-700'>{initialData.g[index]}</div>
+                        <div  id={`o${index}`} className='bg-gray-100 basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 text-gray-700'>{initialData.o[index]}</div>
                     </div>
                     )
                     })}
-                   {/* 
-                        { 
-                            b:[]
-                            i:[] 
-                            n:[] 
-                        }
-                   */}
+                  
                     
 
                 </div>

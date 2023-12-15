@@ -19,7 +19,7 @@ main ::-webkit-scrollbar-thumb {
         transform: scale(80%);
     }
     to{
-        transform: scale(100%);
+        transform: scale(90%);
     }
 }
 

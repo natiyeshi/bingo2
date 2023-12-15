@@ -5,9 +5,11 @@ interface Props {
     toggleNav : Boolean,
     setIsFullScreen : Function,
     toggleScreen : Function,
+    setShowHistory : Function,
+    setShowProfile : Function
 }
 
-const Nav = ({isFullScreen,toggleNav,setIsFullScreen,toggleScreen}:Props) => {
+const Nav = ({setShowHistory,toggleNav,setShowProfile,toggleScreen}:Props) => {
     
     return (
         <nav className={`${toggleNav ? "h-[12vh]" : "h-0" } duration-100 w-full bg-slate-900 flex text-white `}>
@@ -36,8 +38,8 @@ const Nav = ({isFullScreen,toggleNav,setIsFullScreen,toggleScreen}:Props) => {
                 </h1>
             </div>
             <ul className='flex basis-1/3 gap-8 my-auto capitalize'>
-                <li className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]'>profile</li>
-                <li className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]'>history</li>
+                <li onClick={() => setShowProfile((data : boolean) => !data)} className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]'>profile</li>
+                <li onClick={() => setShowHistory((data : boolean) => !data)} className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]' >history</li>
                 <li onClick={() => toggleScreen()} className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]'>full screan</li>
                 <li className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]'>Logout</li>
                
