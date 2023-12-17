@@ -37,11 +37,11 @@ const Nav = ({setShowHistory,toggleNav,setShowProfile,toggleScreen}:Props) => {
                     Dealer
                 </h1>
             </div>
-            <ul className='flex basis-1/3 gap-8 my-auto capitalize'>
-                <li onClick={() => setShowProfile((data : boolean) => !data)} className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]'>profile</li>
-                <li onClick={() => setShowHistory((data : boolean) => !data)} className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]' >history</li>
-                <li onClick={() => toggleScreen()} className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]'>full screan</li>
-                <li className='duration-300 cursor-pointer font-slate-100 hover:scale-[110%]'>Logout</li>
+            <ul className='flex basis-1/3 gap-8 my-auto uppercase text-xs font-semibold'>
+                <li onClick={() => setShowProfile((data : boolean) => !data)} className='duration-300 cursor-pointer font-slate-100 hover:text-slate-300'>profile</li>
+                <li onClick={() => setShowHistory((data : boolean) => !data)} className='duration-300 cursor-pointer font-slate-100 hover:text-slate-300' >history</li>
+                <li onClick={() => toggleScreen()} className='duration-300 cursor-pointer font-slate-100 hover:text-slate-300'>full screan</li>
+                <li className='duration-300 cursor-pointer font-slate-100 hover:text-slate-300'>Logout</li>
                
             </ul>        
         </nav>

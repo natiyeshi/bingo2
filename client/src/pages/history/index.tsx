@@ -9,7 +9,7 @@ interface Props {
 
 const index = ({setShowHistory} : Props) => {
   return (
-    <div className='absolute flex left-0 right-0 top-0 bottom-0  z-20'>
+    <div className='absolute flex left-0 right-0 top-0 bottom-0  z-30'>
         <div className='absolute flex left-0 right-0 top-0 bottom-0  z-10 bg-black opacity-80'> </div>
         <div className='rounded w-2/3 h-[400px] bg-white z-40 mx-auto mt-[6em] px-5'>
             <nav className="flex py-2 px-7 justify-between">

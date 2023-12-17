@@ -142,7 +142,7 @@ const Index = () => {
           } */}
          {showHistory && <History setShowHistory={setShowHistory}  />}
          {showProfile && <Profile setShowProfile={setShowProfile}  />}
-         {!payment && <Payment setPayment={setPayment}/>}
+         {!payment && <Payment setPayment={setPayment} setShowProfile={setShowProfile} setShowHistory={setShowHistory}/>}
           <div className={``}>
           {/* <div className={`${currState == MyStates.loading && "blur-[2em]" }`}> */}
             <Nav setIsFullScreen={setIsFullScreen} isFullScreen={isFullScreen} setShowHistory={setShowHistory} setShowProfile={setShowProfile} toggleNav={toggleNav} toggleScreen={toggleScreen} />
