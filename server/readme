@@ -1,0 +1,23 @@
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
+async function main() {
+    // const data = {
+    //     dealerId : "eeb26bf0-e52e-486d-b8d7-06dccda7010c",
+    //     amount : 0
+    // }
+    // const user = await prisma.charges.create({ data, include : { dealers : true }  })
+    // console.log(user)
+
+    const data = {
+        dealerId : "eeb26bf0-e52e-486d-b8d7-06dccda7010c",
+        amount : 0
+    }
+    const user = await prisma.settings.create({ data, include : { dealers : true }  })
+    console.log(user)
+}
+
+main()
+ .catch(e => {
+    console.log(e.message)
+ })

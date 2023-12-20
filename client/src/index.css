@@ -3,6 +3,8 @@
 html {
   scroll-behavior: smooth;
   scroll-padding: 2em;
+  font-family: 'Roboto', sans-serif;
+
 }
 @tailwind components;
 @tailwind utilities;

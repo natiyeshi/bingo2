@@ -1,7 +1,10 @@
 import { IoMdClose as CloseIcon } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useEffect,useState } from "react";
 
 const index = () => {
+  
+  
   return (
     <div>
         <nav className='py-4 ps-12'>
