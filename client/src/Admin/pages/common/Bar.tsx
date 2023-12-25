@@ -7,12 +7,30 @@ import { FaPercentage as PercentageIcon} from "react-icons/fa";
 import { IoIosLogOut as LogoutIcon } from "react-icons/io";
 import { pages as Pages } from "../../types/types"
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "../../../axios";
+import { AxiosError } from "axios";
 
 interface Props{
     pages: Pages
 }
 
 const Bar = ({pages}:Props) => {
+
+   const [loading,setLoading] = useState(false)
+   const logout = async () => {
+    try {
+        setLoading(true)
+        await axios.post("admin/logout")
+        location.href = "/admin"
+      }catch(error){
+        let err = error as AxiosError
+        let errMessage : any = err.response?.data
+        alert(errMessage.error?.message)
+      }finally{
+        setLoading(false)
+      }
+}
   return (
     <div className='w-1/4 bg-slate-800  text-white'>
             
@@ -39,10 +57,10 @@ const Bar = ({pages}:Props) => {
                          <PercentageIcon className="text-xl my-auto" />
                         <p>Set Rage</p>
                     </Link>
-                    <Link to={"/admin/login"} className={`hover:bg-slate-700  hover:border-white  border-slate-800 border-l-4 cursor-pointer duration-300 ps-12 py-3 flex gap-5`}>
+                    <div onClick={logout} className={`hover:bg-slate-700  hover:border-white  border-slate-800 border-l-4 cursor-pointer duration-300 ps-12 py-3 flex gap-5`}>
                          <LogoutIcon className="text-xl my-auto" />
-                        <p>Logout</p>
-                    </Link>
+                       {!loading ?  <p>Logout</p> : <p>Loging out...</p> }
+                    </div>
                 </div>
             </div>
             <div className="h-full mt-20 w-full text-center border-t border-slate-700 text-xs pt-12">

@@ -25,6 +25,7 @@ model dealers{
   username String @db.VarChar(255)
   password String @db.VarChar(255)
   amount Decimal
+  working Boolean @default(true)
 
   charges charges[]
   @@unique([username]) 

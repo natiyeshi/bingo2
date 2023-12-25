@@ -1,13 +1,16 @@
 import express from "express"
-import { signup,login } from "../controllers/admin/auth.controller.js"
-import { deleteAdmin,getAllAdmins,getAdmin } from "../controllers/admin/crud.controller.js"
+import { signup,login,logout } from "../controllers/admin/auth.controller.js"
+import { deleteAdmin,getAllAdmins,getAdmin,updateAdmin } from "../controllers/admin/crud.controller.js"
+import { checkAdminMw } from "../middlewares/checkAdmin.js"
 
 const router = express.Router()
 
 router.post("/signup",signup)
 router.post("/login",login)
-router.post("/getAdmin/:id",getAdmin)
-router.post("/delete/:id",deleteAdmin)
-router.post("/getAllAdmins",getAllAdmins)
+router.post("/logout",logout)
+router.post("/getAdmin/:id",checkAdminMw,getAdmin)
+router.post("/delete/:id",checkAdminMw,deleteAdmin)
+router.post("/getAllAdmins",checkAdminMw,getAllAdmins)
+router.post("/changePassword",checkAdminMw,updateAdmin)
 
 export default router

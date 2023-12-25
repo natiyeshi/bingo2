@@ -5,6 +5,7 @@ const prisma = new PrismaClient()
 
 export const charge = async (req,res,next) => {
     try{
+        console.log(req.body)
         const { id,amount } = req.body 
         if(!id || !amount){
             throw createError.BadRequest()
@@ -13,8 +14,11 @@ export const charge = async (req,res,next) => {
             dealerId : id ,
             amount 
         }
-        const charge = await prisma.charges.create({ data, include : { dealers : true }  })
-        res.json(charge)
+        const dealerAmount = await prisma.dealers.findUnique({ where : { id } })
+        const newAmount = parseFloat(amount) + parseFloat(dealerAmount.amount)
+        await prisma.dealers.update({ where : { id },data : { amount : newAmount}}) 
+        const charge = await prisma.charges.create({ data })
+        res.json({ id,newAmount })
     }catch(err){
         next(err)
     }

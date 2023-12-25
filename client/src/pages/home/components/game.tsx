@@ -11,11 +11,12 @@ type Props = {
     setToggleNav : Function,
     toggleNav : Boolean,
     currInd : number,
-    audioFileNames : any
+    audioFileNames : any,
+    restart : Function
 }
 
 
-const game = ({play,bingo,audioFileNames,pauseGame,currInd,currState,setToggleNav,toggleNav,initialData}:Props) => {
+const game = ({play,restart,bingo,audioFileNames,pauseGame,currInd,currState,setToggleNav,toggleNav,initialData}:Props) => {
 
     
 
@@ -76,7 +77,7 @@ const game = ({play,bingo,audioFileNames,pauseGame,currInd,currState,setToggleNa
                              </>:
                             currState == MyStates.bingo ? 
                             <>
-                                <button onClick={()=>play()} className='bg-blue-700 duration-300 px-12 py-2 rounded-xl text-white font-bold button-shadow-blue'>Restart</button>
+                                <button onClick={()=>restart()} className='bg-blue-700 duration-300 px-12 py-2 rounded-xl text-white font-bold button-shadow-blue'>Restart</button>
                             </> :
                             <></>
 

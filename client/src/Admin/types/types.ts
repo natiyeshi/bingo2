@@ -4,3 +4,9 @@ export enum pages {
     Edit,
     Setting
 }
+
+export interface dealerInt {
+    amount : string,
+    id : string,
+    
+}

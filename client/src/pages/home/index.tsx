@@ -55,6 +55,11 @@ const Index = () => {
     }
   }
 
+  const restart = () => {
+    setPayment(false)
+    setCurrState(MyStates.loaded)
+  }
+  
   const bingo = () =>{
     setCurrInd(0)
     setResultIndex(zeroIndex)
@@ -67,7 +72,6 @@ const Index = () => {
       map[key] = audioBuffers[index];
       return map;
     }, {} as Record<string, AudioBuffer>);
-
     const shuffledAudio = shuffleMappings(audioMap)
     setAudioBuffers(Object.values(shuffledAudio))
     setAudioFileNames(Object.keys(shuffledAudio))
@@ -145,7 +149,18 @@ const Index = () => {
           <div className={`${currState == MyStates.loading && "blur-[2em]" }`}>
               <Nav setIsFullScreen={setIsFullScreen} isFullScreen={isFullScreen} setShowHistory={setShowHistory} setShowProfile={setShowProfile} toggleNav={toggleNav} toggleScreen={toggleScreen} />
               <div className={`${toggleNav ? "" : "h-[100vh]"} flex text-white  bg-red-300`}>
-                  <Game play={play} audioFileNames={audioFileNames} currInd={currInd} bingo={bingo} currState={currState} initialData={initialData} pauseGame={pauseGame} setToggleNav={setToggleNav} toggleNav={toggleNav} />
+                  <Game 
+                      play={play} 
+                      audioFileNames={audioFileNames} 
+                      currInd={currInd} 
+                      bingo={bingo} 
+                      currState={currState} 
+                      initialData={initialData} 
+                      pauseGame={pauseGame} 
+                      setToggleNav={setToggleNav} 
+                      toggleNav={toggleNav} 
+                      restart={restart}
+                    />
             </div>
           </div>
         </div>

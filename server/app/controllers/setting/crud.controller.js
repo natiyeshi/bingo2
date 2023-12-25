@@ -1,13 +1,14 @@
 import createError from "http-errors"
-import bcrypt from "bcrypt"
 import { PrismaClient } from "@prisma/client"
-
+import SettingJoi from "../../validation/setting/setting.joi.js"
 const prisma = new PrismaClient()
 
 export const changeRate = async (req,res,next) => {
     try{
-        const { rate } = req.body
-        const data = await prisma.settings.updateMany({ data : { rate }})
+        const rate = req.body
+        // throw createError.BadGateway(JSON.stringify(rate))
+        const validatedData = await SettingJoi.validateAsync(rate)
+        const data = await prisma.settings.updateMany({ data : { rate : validatedData.rate }})
         res.json(data)
     }catch(err){
         next(err)

@@ -3,7 +3,7 @@ import bcrypt from "bcrypt"
 import AdminJoi from "../../validation/admin/admin.joi.js"
 import { PrismaClient } from "@prisma/client"
 import { signAdmin } from  "../../utils/admin.jwt.js"
-
+import jwt from "jsonwebtoken"
 const prisma = new PrismaClient()
 
 export const signup = async (req,res,next)=>{
@@ -33,10 +33,9 @@ export const login = async (req,res,next)=>{
         const match = await bcrypt.compare(admin.password,adimnDb.password);
         if(!match) throw createError.BadRequest("incorrect creadential")
         const data = {
-           access_token: signAdmin({ id : adimnDb.id}),
            username : adimnDb.username
         }
-        res.cookie("access_token",signAdmin({ id : adimnDb.id}))
+        res.cookie("admin_access_token",jwt.sign({ id : adimnDb.id},process.env.ADMIN_ACCESS_TOKEN))
            .json(data)
     }catch(err){
         next(err)
@@ -45,5 +44,5 @@ export const login = async (req,res,next)=>{
 
 
 export const logout = async (req,res,next)=>{
-    res.cookie("access_token","").send()
+    res.cookie("admin_access_token","").send()
 }

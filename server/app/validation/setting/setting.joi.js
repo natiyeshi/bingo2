@@ -6,5 +6,5 @@ import Joi from "joi"
 //   }
   
 export default Joi.object({
-    rate: Joi.number().min(0).max(100).required(),
+    rate: Joi.number().min(1).max(100).required(),
 })
