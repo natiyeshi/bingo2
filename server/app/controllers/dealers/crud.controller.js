@@ -87,6 +87,18 @@ export const bet = async (req,res,next) => {
             throw createError.BadRequest("not enough money!")
         }
         const newValue = dealerAmount - commution
+        const saveBet = await prisma.bets.create({
+            data : {
+                numberOfPlayers : numberOfPlayers,
+                betAmount : betAmount,
+                totalBet : betValue,
+                commution : commution,
+                netWinnerGain : betValue - commution,
+                currRate : rate,
+                dealerId : id
+            }
+         })
+        console.log(saveBet)
         const newData = await prisma.dealers.update({ 
             where : { id },
             data : {

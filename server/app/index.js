@@ -10,6 +10,7 @@ import adminRoute from "./routes/admin.router.js"
 import dealerRoute from "./routes/dealer.router.js"
 import chargeRoute from "./routes/charge.router.js"
 import settingRoute from "./routes/setting.route.js"
+import betRoute from "./routes/bet.router.js"
 
 dotenv.config();
 const app = express()
@@ -27,6 +28,7 @@ app.use("/admin",adminRoute)
 app.use("/dealer",dealerRoute)
 app.use("/charge",chargeRoute)
 app.use("/setting",settingRoute)
+app.use("/bet",betRoute)
 
 app.use((req,res,next) => {
     next(createError.NotFound("route not found"))

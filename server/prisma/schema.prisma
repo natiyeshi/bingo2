@@ -28,6 +28,7 @@ model dealers{
   working Boolean @default(true)
 
   charges charges[]
+  bets bets[]
   @@unique([username]) 
 }
 
@@ -35,6 +36,21 @@ model charges {
   id String @id @default(uuid())
   date DateTime @default(now())
   amount Decimal
+
+  dealerId String
+  dealers dealers @relation(fields: [dealerId],references: [id],onDelete: Cascade)
+
+}
+
+model bets{
+  id String @id @default(uuid())
+  date DateTime @default(now())
+  numberOfPlayers Int 
+  betAmount Int
+  totalBet Decimal
+  netWinnerGain Decimal
+  commution Decimal
+  currRate Decimal
 
   dealerId String
   dealers dealers @relation(fields: [dealerId],references: [id],onDelete: Cascade)

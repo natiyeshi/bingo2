@@ -15,7 +15,7 @@ const index = () => {
     try {
       setErr("")
       setLoading(true)
-      const res = await axios.post("dealer/login",{username,password})
+      await axios.post("dealer/login",{username,password})
       navigate("/")
     }catch(error){
       let err = error as AxiosError

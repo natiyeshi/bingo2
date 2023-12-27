@@ -146,9 +146,18 @@ const Index = () => {
          {showHistory && <History setShowHistory={setShowHistory}  />}
          {showProfile && <Profile setShowProfile={setShowProfile}  />}
          {currState != MyStates.loading && !payment && <Payment setPayment={setPayment} setShowProfile={setShowProfile} setShowHistory={setShowHistory}/>}
-          <div className={`${currState == MyStates.loading && "blur-[2em]" }`}>
+          <div className={`${currState == MyStates.loading && "blur-[2em]" } relative`}>
+                {/* <div className='absolute right-10 top-10 px-3 py-5 rounded-xl shadow-lg z-20 flex flex-col bg-green-200'>
+                  <div>
+          
+                  </div>
+                  <div>
+                    <div>bet 100 birr</div>
+                    <div>net win 2100 birr</div>
+                  </div>
+                </div> */}
               <Nav setIsFullScreen={setIsFullScreen} isFullScreen={isFullScreen} setShowHistory={setShowHistory} setShowProfile={setShowProfile} toggleNav={toggleNav} toggleScreen={toggleScreen} />
-              <div className={`${toggleNav ? "" : "h-[100vh]"} flex text-white  bg-red-300`}>
+              <div className={`${toggleNav ? "" : "h-[100vh]"} flex text-white relative  bg-red-300`}>
                   <Game 
                       play={play} 
                       audioFileNames={audioFileNames} 
