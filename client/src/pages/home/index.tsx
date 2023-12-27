@@ -7,6 +7,7 @@ import { MyStates,ResultIndexType } from '../../types/ui.types'
 import History from "../history/index";
 import Profile from "../profile/index";
 import Payment from "../components/payment";
+import Confetti from 'react-confetti'
 
 const Index = () => {
 
@@ -82,6 +83,9 @@ const Index = () => {
     curr = currInd;
     currResultIndex = resultIndex;
     timeIdRef.current = setInterval(()=>{
+      if(curr >= audioBuffers.length ){
+        return bingo()
+      }
       if (audioBuffers.length > 0) {
         const context = new AudioContext();
         const selectedBuffer = audioBuffers[curr];
@@ -130,7 +134,8 @@ const Index = () => {
   }, []); 
 
     return (
-        <div className='h-[100vh] relative flex flex-col '>
+        <div className={`h-[100vh] relative flex flex-col overflow-x-hidden ${!payment && "overflow-y-hidden"}`}>
+          {MyStates.bingo == currState && <Confetti />}
           { currState == MyStates.loading && 
             <div className='absolute z-40 left-0 top-0 bottom-0 right-0 '>
                 <div className='absolute left-0 right-0 top-0 bottom-0 bg-slate-900 opacity-50'>
@@ -147,17 +152,17 @@ const Index = () => {
          {showProfile && <Profile setShowProfile={setShowProfile}  />}
          {currState != MyStates.loading && !payment && <Payment setPayment={setPayment} setShowProfile={setShowProfile} setShowHistory={setShowHistory}/>}
           <div className={`${currState == MyStates.loading && "blur-[2em]" } relative`}>
-                {/* <div className='absolute right-10 top-10 px-3 py-5 rounded-xl shadow-lg z-20 flex flex-col bg-green-200'>
-                  <div>
-          
-                  </div>
-                  <div>
-                    <div>bet 100 birr</div>
-                    <div>net win 2100 birr</div>
-                  </div>
-                </div> */}
+              {/* <div className='absolute right-10 top-10 px-3 py-5 rounded-xl shadow-lg z-20 flex flex-col bg-green-200'>
+                <div>
+        
+                </div>
+                <div>
+                  <div>bet 100 birr</div>
+                  <div>net win 2100 birr</div>
+                </div>
+              </div> */}
               <Nav setIsFullScreen={setIsFullScreen} isFullScreen={isFullScreen} setShowHistory={setShowHistory} setShowProfile={setShowProfile} toggleNav={toggleNav} toggleScreen={toggleScreen} />
-              <div className={`${toggleNav ? "" : "h-[100vh]"} flex text-white relative  bg-red-300`}>
+              <div className={` flex text-white relative  bg-red-300 `}>
                   <Game 
                       play={play} 
                       audioFileNames={audioFileNames} 
@@ -166,9 +171,8 @@ const Index = () => {
                       currState={currState} 
                       initialData={initialData} 
                       pauseGame={pauseGame} 
-                      setToggleNav={setToggleNav} 
-                      toggleNav={toggleNav} 
                       restart={restart}
+                      payment={payment}
                     />
             </div>
           </div>

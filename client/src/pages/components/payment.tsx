@@ -86,18 +86,20 @@ const index = ({setPayment,setShowHistory,setShowProfile} : Props) => {
             <nav className="flex py-2 px-7 justify-between bg-slate-800  ">
                 <div className="text-2xl font-semibold text-white capitalize">Bet</div>
                 <ul className="flex gap-3 text-white my-auto capitalize text-sm">
-                  <li onClick={() => setShowHistory((data : boolean) => !data)} className="cursor-pointer">history</li>
-                  <li onClick={() => setShowProfile((data : boolean) => !data)} className="cursor-pointer">Amout</li>
-                  <li onClick={logout}>Logout</li>
+                  <li onClick={() => setShowHistory((data : boolean) => !data)} className="cursor-pointer duration-300 hover:text-gray-300">history</li>
+                  <li onClick={() => setShowProfile((data : boolean) => !data)} className="cursor-pointer duration-300 hover:text-gray-300">Amout</li>
+                  <li onClick={logout} className="cursor-pointer duration-300 hover:text-gray-300">Logout</li>
                 </ul>
             </nav>
         <form className="flex flex-col px-12 mt-5 gap-2 capitalize" onSubmit={(e) => e.preventDefault()}>
            {err && <Error err={err} css="" setErr={setErr}/>}
-           <div className="flex gap-2 w-4/5 justify-between">
+           {!isLoading && !error && parseInt(dealersData.amount) < 100 && <Error err={"your account balance is getting low!"} css="" setErr={setErr}/>}
+
+           <div className="flex gap-2 w-3/4  justify-between">
                 <label htmlFor="" className="py-2">Number of players</label>
                 <input onChange={onchange} name="numberOfPlayers" value={form.numberOfPlayers} type="number" placeholder="number of players" className="px-2 border py-2 rounded-xl" />
            </div>
-           <div className="flex gap-2 w-4/5 justify-between">
+           <div className="flex gap-2 w-3/4  justify-between">
                 <label htmlFor="" className="py-2">Bet Amount</label>
                 <input type="number" onChange={onchange} name="betAmount" value={form.betAmount} placeholder="players" className="px-2 border py-2 rounded-xl" />
            </div>
@@ -112,7 +114,6 @@ const index = ({setPayment,setShowHistory,setShowProfile} : Props) => {
               }
            </div>
         </form>
-        
             
            
         </div>

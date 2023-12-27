@@ -9,10 +9,10 @@ interface Props {
     setShowProfile : Function
 }
 
-const Nav = ({setShowHistory,toggleNav,setShowProfile,toggleScreen}:Props) => {
+const Nav = ({setShowHistory,setShowProfile,toggleScreen}:Props) => {
     
     return (
-        <nav className={`${toggleNav ? "h-[12vh]" : "h-0" } duration-100 w-full bg-slate-900 flex text-white `}>
+        <nav className={`h-[12vh] duration-100 w-full bg-slate-900 flex text-white `}>
 
             <div className='flex basis-1/3 justify-center my-auto gap-3'>
                 <span className='bg-orange-900 rounded-full flex w-[40px] h-[40px]  '>

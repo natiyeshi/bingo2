@@ -32,7 +32,7 @@ const index = ({setShowHistory} : Props) => {
             
             try {
                 setLoading(true)
-                const chargeRes = await axios.post("charge/getAllCharges",{ id : dealer.id})
+                const chargeRes = await axios.post("charge/getDealerCharge",{ id : dealer.id})
                 const betRes = await axios.post("bet/getDealerCharge",{ id : dealer.id})
                 setCharges(chargeRes.data)
                 setBets(betRes.data)
@@ -55,17 +55,15 @@ const index = ({setShowHistory} : Props) => {
     <div className='absolute flex left-0 right-0 top-0 bottom-0  z-30'>
         <div className='absolute flex left-0 right-0 top-0 bottom-0  z-10 bg-black opacity-80'> </div>
         <div className='rounded w-2/3 h-fit pb-10 bg-white z-40 mx-auto mt-[6em] px-5'>
-            <nav className="flex py-2 px-7 justify-between">
+            <nav className="flex py-2 px-2   justify-between">
                 <div className="text-lg font-semibold">History</div>
                 <div className="my-auto cursor-pointer" onClick={() => setShowHistory(false)}> <CloseIcon className="text-xl"/> </div>
             </nav>
-            <div className="px-2 flex gap-3">
-                <button onClick={()=>{ setType(0)}} className={`px-2 py-2 ${type == 0 && "bg-gray-100" } rounded-lg`}>bets</button>
-                <button  onClick={()=>{ setType(1)}} className={`px-2 py-2 ${type == 1 && "bg-gray-100" }  rounded-lg`}>charges</button>
+            <div className="px-2 flex gap-3 my-2 flex-row-reverse pe-12">
+                <button  onClick={()=>{ setType(1)}} className={`px-1 ${type == 1 && "border-b-2 text-blue-500 " } font-semibold capitalize border-blue-500`}>charges</button>
+                <button onClick={()=>{ setType(0)}} className={`px-1  ${type == 0 && "border-b-2 text-blue-500 " } font-semibold capitalize border-blue-500 `}>bets</button>
             </div>
-            <div className="flex my-2 flex-row-reverse me-8">
-                <p className="text-gray-600 px-3 py-1 rounded  bg-gray-100">1 / 3</p>
-            </div>
+            
             
             {loading || isLoading && <>loading</>}
 
@@ -115,16 +113,7 @@ const index = ({setShowHistory} : Props) => {
                
             </div>
 
-            <div className="flex float-right mt-5 me-2 gap-2">
-                <button title="next" className="flex bg-gray-200 rounded duration-300 hover:bg-gray-300 py-1 px-5 "> 
-                    <NextIcon className="text-xl m-auto rotate-180" />
-                    Prev 
-                </button>
-                <button title="prev" className="flex bg-gray-200 rounded duration-300 hover:bg-gray-300 py-1 px-5">
-                    Next
-                    <NextIcon className="text-xl m-auto " />
-                </button>
-            </div>
+            
 
         </div>
     </div>
