@@ -115,23 +115,29 @@ const Index = () => {
 
   useEffect(() => {
     const fetchAudioBuffers = async () => {
-      const audios = await importFiles()
-      const shuffledAudio = shuffleMappings(audios)
-      const datas = Object.values(shuffledAudio)
-      setAudioFileNames(Object.keys(shuffledAudio))
-      const buffers = await Promise.all(
-        datas.map(async (file) => {
-            const response = await fetch(file);
-            const arrayBuffer = await response.arrayBuffer();
-            const context = new AudioContext();
-            const audioBuffer = await context.decodeAudioData(arrayBuffer);
-            context.close(); 
-            setCounter(d => d + 1)
-            return audioBuffer;
-          })
-      );
-      setAudioBuffers(buffers);
-      setCurrState(MyStates.loaded)
+      try{
+          const audios = await importFiles()
+          const shuffledAudio = shuffleMappings(audios)
+          const datas = Object.values(shuffledAudio)
+          setAudioFileNames(Object.keys(shuffledAudio))
+          const buffers = await Promise.all(
+            datas.map(async (file) => {
+                const response = await fetch(file);
+                const arrayBuffer = await response.arrayBuffer();
+                const context = new AudioContext();
+                const audioBuffer = await context.decodeAudioData(arrayBuffer);
+                context.close(); 
+                setCounter(d => d + 1)
+                return audioBuffer;
+              })
+          );
+          setAudioBuffers(buffers);
+          setCurrState(MyStates.loaded)
+        
+      }catch(err){
+        alert("something goes wrong!")
+        console.log(err)
+      }
     };
     // if(error){}
     fetchAudioBuffers();

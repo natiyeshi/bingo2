@@ -1,30 +1,65 @@
-export const importFiles = async () => {
+// export const importFiles = async () => {
 
-    const filePaths : any = {};
-    for(let i = 1; i <= 15; i++){
-      filePaths[`b${i}`] = `/audio/B/B${i}.mp3`
-    }
-    for(let i = 16; i <= 30; i++){
-      filePaths[`i${i}`] = `/audio/I/i${i}.mp3`
-    }
-    for(let i = 31; i <= 45; i++){
-      filePaths[`n${i}`] = `/audio/N/N${i}.mp3`
-    }
-    for(let i = 46; i <= 60; i++){
-      filePaths[`g${i}`] = `/audio/G/G${i}.mp3`
-    }
-    for(let i = 61; i <= 75; i++){
-      filePaths[`o${i}`] = `/audio/0/0${i}.mp3`
-    }
-    const audioDataMap : any = {};
+//     const filePaths : any = {};
+//     for(let i = 1; i <= 15; i++){
+//       filePaths[`b${i}`] = `/audio/B/B${i}.mp3`
+//     }
+//     for(let i = 16; i <= 30; i++){
+//       filePaths[`i${i}`] = `/audio/I/i${i}.mp3`
+//     }
+//     for(let i = 31; i <= 45; i++){
+//       filePaths[`n${i}`] = `/audio/N/N${i}.mp3`
+//     }
+//     for(let i = 46; i <= 60; i++){
+//       filePaths[`g${i}`] = `/audio/G/G${i}.mp3`
+//     }
+//     for(let i = 61; i <= 75; i++){
+//       filePaths[`o${i}`] = `/audio/0/0${i}.mp3`
+//     }
+//     const audioDataMap :  Record<string, HTMLAudioElement> = {};
   
-    for (const filePath in filePaths) {
-      const { default: audio } = await import(filePaths[filePath]);
-      audioDataMap[filePath] =  audio
-    }
+//     for (const filePath in filePaths) {
+//       const { default: audio } = await import(filePaths[filePath]);
+//       audioDataMap[filePath] =  audio
+//     }
+//     console.log(audioDataMap)
     
-    return audioDataMap
-}
+//     return audioDataMap
+// }
+export const importFiles = async (): Promise<Record<string, string>> => {
+  const filePaths: Record<string, string> = {};
+
+  for (let i = 1; i <= 15; i++) {
+    filePaths[`b${i}`] = `/audio/B/B${i}.mp3`;
+  }
+  for (let i = 16; i <= 30; i++) {
+    filePaths[`i${i}`] = `/audio/I/i${i}.mp3`;
+  }
+  for (let i = 31; i <= 45; i++) {
+    filePaths[`n${i}`] = `/audio/N/N${i}.mp3`;
+  }
+  for (let i = 46; i <= 60; i++) {
+    filePaths[`g${i}`] = `/audio/G/G${i}.mp3`;
+  }
+  for (let i = 61; i <= 75; i++) {
+    filePaths[`o${i}`] = `/audio/0/0${i}.mp3`;
+  }
+  const audioDataMap: Record<string, string> = {};
+
+  for (const filePath in filePaths) {
+    try {
+      const response = await fetch(filePaths[filePath]);
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob); // Create temporary URL
+      audioDataMap[filePath] = audioUrl;
+    } catch (error) {
+      alert("something goes wrong!!")
+      console.error(`Error fetching audio file ${filePaths[filePath]}:`, error);
+    }
+  }
+
+  return audioDataMap;
+};
 
 export function shuffleMappings(mappings : {}) {
     // Convert the mappings object to an array

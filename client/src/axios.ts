@@ -1,6 +1,6 @@
 import axios from "axios"
 
 axios.defaults.withCredentials = true
-const baseURL = "http://localhost:4000";
+const baseURL = window.location.origin;
 axios.defaults.baseURL = baseURL
 export default axios

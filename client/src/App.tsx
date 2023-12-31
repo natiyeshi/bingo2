@@ -20,6 +20,7 @@ function App() {
         <Route path="/login" element={<DealerLoginOutlet /> }  >
           <Route path="" element={<UserLogin />} />
         </Route>
+
         <Route path="/" element={<DealerOutlet /> }  >
           <Route path="" element={<Home />} />
         </Route>

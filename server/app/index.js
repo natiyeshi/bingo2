@@ -31,14 +31,16 @@ app.use(cors({
 }))
 app.use(cookieParser())
 //routes
-
-
 app.use("/admin",adminRoute)
 app.use("/dealer",dealerRoute)
 app.use("/charge",chargeRoute)
 app.use("/setting",settingRoute)
 app.use("/bet",betRoute)
 
+app.get("*",(req,res,next)=>{
+
+    res.sendFile(path.join(__dirname, 'static', 'index.html'));
+})
 
 app.use((req,res,next) => {
     next(createError.NotFound("route not found"))
