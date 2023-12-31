@@ -1,4 +1,3 @@
-import React from 'react'
 import { IoSettingsOutline as SettingIcon } from "react-icons/io5";
 import { IoCloseSharp as CloseIcon} from "react-icons/io5";
 

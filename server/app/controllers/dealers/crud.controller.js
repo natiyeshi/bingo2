@@ -36,6 +36,9 @@ export const getDealer = async (req,res,next) => {
     try{
         const id = req.id
         const data = await prisma.dealers.findUnique({ where : { id }})
+        if(!data.working){
+            throw createError.Unauthorized()
+        }
         res.json(data)
     }catch(err){
         next(err)
@@ -78,6 +81,10 @@ export const bet = async (req,res,next) => {
         if(!dealer){
             throw createError.BadRequest("user not found")
         }
+        if(!dealer.working){
+            res.cookie("access_token","")
+            throw createError.Unauthorized()
+        }
         const setting = await prisma.settings.findFirst()
 
         const rate = parseFloat(setting.rate)
@@ -106,7 +113,7 @@ export const bet = async (req,res,next) => {
              }
          })
         console.log(newData)
-        res.json(newData)
+        res.json({newData,saveBet})
     }catch(err){
         next(err)
     }

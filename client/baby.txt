@@ -1,0 +1,8 @@
+The MERN stack is a popular choice fr building full-stack web applications, 
+as it combines the strengths of each of its constituent technologies. 
+Dockerization allows us to package our application into a container, 
+which is a lightweight, self-contained unit that can be run on any 
+machine with Docker installed.
+
+the mern stack is a popular for buildlding   full-st
+

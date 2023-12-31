@@ -53,8 +53,8 @@ const working = ({ data }: Props) => {
 
             <div onClick={() =>{
                  !loading && changeWorking() 
-                }} className={`main ${!loading ? " cursor-pointer" : "cursor-wait"} overflow-hidden w-12 border duration-300 h-6 bg-white rounded-2xl flex ${working && "flex-row-reverse" }  relative`}>
-                <div className={`absolute left-0 right-0 top-0 duration-300 bottom-0 ${working && "bg-slate-700" }`} ></div>
+                }} className={`main ${!loading ? " cursor-pointer" : "cursor-wait"} overflow-hidden w-12 border duration-300 h-6 bg-white rounded-2xl flex ${!working && "flex-row-reverse" }  relative`}>
+                <div className={`absolute left-0 right-0 top-0 duration-300 bottom-0 ${!working && "bg-slate-700" }`} ></div>
                 <div className={`sub z-40 h-5 w-5 rounded-full bg-yellow-600 duration-700 mx-[1px] my-auto   `}></div>
             </div>
             

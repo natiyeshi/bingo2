@@ -39,7 +39,10 @@ export const getDealerCharge = async (req,res,next) => {
     try{
         const { id } = req.body
         if(!id) throw createError.BadRequest()
-        const charges = await prisma.charges.findMany({ where : { dealerId : id }})
+        const charges = await prisma.charges.findMany({ 
+            where : { dealerId : id },
+            orderBy: { date: 'desc' }
+        })
         res.json(charges)
     }catch(err){
         next(err)

@@ -1,0 +1,20 @@
+
+
+.notification {
+    animation-name: noti;
+    animation-duration: 200ms;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: 1;
+    transform: translate(0px);
+
+}
+
+@keyframes noti {
+    
+    from{
+        transform: translate(100px);
+    }
+    to{
+        transform: translate(0px);
+    }
+}

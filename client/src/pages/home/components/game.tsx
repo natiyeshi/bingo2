@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
 import { MyStates } from '../../../types/ui.types'
-import { FaArrowUp as Arrow } from "react-icons/fa";
 import { FaLock as LockIcon } from "react-icons/fa";
+import { CiPause1 as PauseIcon  } from "react-icons/ci";
+import { CiPlay1 as PlayIcon} from "react-icons/ci";
 type Props = {
     play : Function,
     initialData : any,
@@ -33,7 +33,7 @@ const game = ({play,restart,payment,bingo,audioFileNames,pauseGame,currInd,currS
                                 <div className='m-auto'>
                                     <p className='text-[80px]  text-black font-bold'>
                                         {   audioFileNames! ? 
-                                            currInd == 0 ? "start" :
+                                            currInd == 0 ? <PlayIcon /> :
                                             audioFileNames[currInd - 1] : 
                                             "."
                                         }
@@ -68,12 +68,22 @@ const game = ({play,restart,payment,bingo,audioFileNames,pauseGame,currInd,currS
                             </> :
                             currState == MyStates.playing ? 
                             <>
-                                <button onClick={()=>pauseGame()} className=' px-7 py-2 rounded-xl border hover:bg-slate-600 bg-slate-700 duration-300 '>Pause</button>
+                                <button onClick={()=>pauseGame()} className='flex gap-1 px-7 py-2 rounded-xl border hover:bg-slate-600 bg-slate-700 duration-300 '>
+                                    <p>
+                                        Pause
+                                    </p>
+                                    <PauseIcon className="self-center text-white" />
+                                </button>
                             </>:
                              currState == MyStates.paused ? 
                              <>
                                  <button onClick={()=>bingo()} className='bg-green-500 duration-300 px-7 py-2 rounded-xl text-slate-900 font-bold button-shadow-green'>Bingo</button>
-                                 <button onClick={()=>play()} className=' px-7 py-2 rounded-xl border hover:bg-slate-600 bg-slate-700 duration-300 '>Resume</button>
+                                 <button onClick={()=>play()} className=' px-7 py-2 flex gap-1 rounded-xl border hover:bg-slate-600 bg-slate-700 duration-300 '>
+                                       <p>
+                                         Resume
+                                        </p>
+                                        <PlayIcon className="self-center" />  
+                                  </button>
                              </>:
                             currState == MyStates.bingo ? 
                             <>
@@ -91,23 +101,23 @@ const game = ({play,restart,payment,bingo,audioFileNames,pauseGame,currInd,currS
             <main className='flex-grow bg-white text-black'> 
 
                 <div className='h-[13vh] flex  text-white mx-2 gap-2'>
-                    <div className='bg-orange-700 basis-1/5 py-5 text-center m-auto font-bold text-xl border-2'>B</div>
-                    <div className='bg-green-700 basis-1/5 py-5 text-center m-auto font-bold text-xl border-2'>I</div>
-                    <div className='bg-blue-700 basis-1/5 py-5 text-center m-auto font-bold text-xl border-2'>N</div>
-                    <div className='bg-purple-700 basis-1/5 py-5 text-center m-auto font-bold text-xl border-2'>G</div>
-                    <div className='bg-yellow-500 basis-1/5 py-5 text-center m-auto font-bold text-xl border-2'>O</div>
+                    <div className='bg-orange-700 basis-1/5 py-5 rounded-lg text-center m-auto font-bold text-xl border-2'>B</div>
+                    <div className='bg-green-700 basis-1/5 py-5 rounded-lg text-center m-auto font-bold text-xl border-2'>I</div>
+                    <div className='bg-blue-700 basis-1/5 py-5 rounded-lg text-center m-auto font-bold text-xl border-2'>N</div>
+                    <div className='bg-purple-700 basis-1/5 py-5 rounded-lg text-center m-auto font-bold text-xl border-2'>G</div>
+                    <div className='bg-yellow-500 basis-1/5 py-5 rounded-lg text-center m-auto font-bold text-xl border-2'>O</div>
                 </div>
 
-                <div className={` grid gap-2 pb-12 scroll-smooth`}>
+                <div className={` grid gap-2 pb-12 scroll-smooth`} >
                
                     { initialData.b.map((_:any,index:any) => {
                         return (
                     <div key={index} className='flex gap-2 mx-2'>
-                        <div  id={`b${index}`} className={`rounded-lg basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 shadow-lg ${initialData.b[index] != "." ? "bg-blue-500 text-white " : "text-gray-700"}`}>{initialData.b[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.b[index]}</div>
-                        <div  id={`i${index}`} className={`rounded-lg basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 shadow-lg ${initialData.i[index] != "." ? "bg-blue-500 text-white " : "text-gray-700"}`}>{initialData.i[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.i[index]}</div>
-                        <div  id={`n${index}`} className={`rounded-lg basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 shadow-lg ${initialData.n[index] != "." ? "bg-blue-500 text-white " : "text-gray-700"}`}>{initialData.n[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.n[index]}</div>
-                        <div  id={`g${index}`} className={`rounded-lg basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 shadow-lg ${initialData.g[index] != "." ? "bg-blue-500 text-white " : "text-gray-700"}`}>{initialData.g[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.g[index]}</div>
-                        <div  id={`o${index}`} className={`rounded-lg basis-1/5 py-5 text-center font-bold text-xl capitalize border-2 shadow-lg ${initialData.o[index] != "." ? "bg-blue-500 text-white " : "text-gray-700"}`}>{initialData.o[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.o[index]}</div>
+                        <div  id={`b${index}`} className={`rounded-lg basis-1/5 py-12 text-center font-bold text-xl capitalize border-2 duration-200 shadow-lg ${initialData.b[index] != "." ? "bg-blue-500 text-white animate" : "text-gray-700 "}`}>{initialData.b[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.b[index]}</div>
+                        <div  id={`i${index}`} className={`rounded-lg basis-1/5 py-12 text-center font-bold text-xl capitalize border-2 duration-200 shadow-lg ${initialData.i[index] != "." ? "bg-blue-500 text-white animate" : "text-gray-700 "}`}>{initialData.i[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.i[index]}</div>
+                        <div  id={`n${index}`} className={`rounded-lg basis-1/5 py-12 text-center font-bold text-xl capitalize border-2 duration-200 shadow-lg ${initialData.n[index] != "." ? "bg-blue-500 text-white animate" : "text-gray-700 "}`}>{initialData.n[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.n[index]}</div>
+                        <div  id={`g${index}`} className={`rounded-lg basis-1/5 py-12 text-center font-bold text-xl capitalize border-2 duration-200 shadow-lg ${initialData.g[index] != "." ? "bg-blue-500 text-white animate" : "text-gray-700 "}`}>{initialData.g[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.g[index]}</div>
+                        <div  id={`o${index}`} className={`rounded-lg basis-1/5 py-12 text-center font-bold text-xl capitalize border-2 duration-200 shadow-lg ${initialData.o[index] != "." ? "bg-blue-500 text-white animate" : "text-gray-700 "}`}>{initialData.o[index] == "." ? <LockIcon className="m-auto text-2xl" /> : initialData.o[index]}</div>
                     </div>
                     )
                     })

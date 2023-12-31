@@ -2,11 +2,10 @@
 
 import { useState,useEffect } from "react";
 import { IoMdClose as CloseIcon } from "react-icons/io";
-import { MdNavigateNext as NextIcon } from "react-icons/md";
 import axios from "../../axios"
 import { AxiosError } from "axios";
 import { useSelector } from "react-redux";
-import { getDealer, getDealerError, getDealerLoading } from "../../store/features/dealer/dealerSlice";
+import { getDealer, getDealerLoading } from "../../store/features/dealer/dealerSlice";
 
 interface Props {
     setShowHistory : Function,
@@ -16,7 +15,6 @@ const index = ({setShowHistory} : Props) => {
 
 
     const [err,setErr] = useState("")
-    const [suc,setSuc] = useState("")
     const [charges,setCharges] = useState<any>([])
     const [bets,setBets] = useState<any>([])
     const [loading,setLoading] = useState(false)
@@ -24,13 +22,12 @@ const index = ({setShowHistory} : Props) => {
     
     const dealer = useSelector(getDealer)
     const isLoading = useSelector(getDealerLoading)
-    const error = useSelector(getDealerError)
-    
 
     useEffect(() => {
         const fetch = async () => {
             
             try {
+                setErr("")
                 setLoading(true)
                 const chargeRes = await axios.post("charge/getDealerCharge",{ id : dealer.id})
                 const betRes = await axios.post("bet/getDealerCharge",{ id : dealer.id})
@@ -39,7 +36,7 @@ const index = ({setShowHistory} : Props) => {
               }catch(error){
                 let err = error as AxiosError
                 let errMessage : any = err.response?.data
-                alert(errMessage.error?.message)
+                setErr(errMessage?.error?.message || "Connection lost")
               }finally{
                 setLoading(false)
               }
@@ -52,7 +49,7 @@ const index = ({setShowHistory} : Props) => {
     
 
   return (
-    <div className='absolute flex left-0 right-0 top-0 bottom-0  z-30'>
+    <div className='absolute flex left-0 right-0 top-0 h-[400vh]  z-30'>
         <div className='absolute flex left-0 right-0 top-0 bottom-0  z-10 bg-black opacity-80'> </div>
         <div className='rounded w-2/3 h-fit pb-10 bg-white z-40 mx-auto mt-[6em] px-5'>
             <nav className="flex py-2 px-2   justify-between">
@@ -65,10 +62,17 @@ const index = ({setShowHistory} : Props) => {
             </div>
             
             
-            {loading || isLoading && <>loading</>}
 
-            <div className="h-[220px] overflow-auto">
-                {type == 0 ? 
+            <div className={`h-[220px] overflow-auto ${((loading || isLoading || err) && "flex")}`}>
+                {}
+                {
+                loading ? 
+                    <div className="m-auto ">loading</div>
+                :
+                err ? 
+                <div className="m-auto ">{err}</div>
+                :
+                type == 0 ? 
                  <table className="bg-red-30 w-full overflow-scroll">
                  <tr className="px-2 bg-slate-600 text-white border">
                      <td className="text-center py-3 border border-gray-300">No</td>
@@ -81,16 +85,16 @@ const index = ({setShowHistory} : Props) => {
                      {/* <td className="text-center py-3 border border-gray-300">Date</td> */}
                  </tr>
                  {bets.map((data:any,ind : number) => 
-                 <tr className="bg-gray-50 hover:bg-slate-100">
-                     <td className="text-center border py-1 ">{ind + 1}</td>
-                     <td className="text-center border py-1 ">{data.numberOfPlayers}</td>
-                     <td className="text-center border py-1 ">{data.betAmount}</td>
-                     <td className="text-center border py-1 ">{data.totalBet}</td>
-                     <td className="text-center border py-1 ">{data.netWinnerGain}</td>
-                     <td className="text-center border py-1 ">{data.commution}</td>
-                     <td className="text-center border py-1 ">{data.currRate} % </td>
-                     {/* <td className="text-center border py-1 ">Mon 12 2021</td> */}
-                 </tr>)
+                    <tr className="bg-gray-50 hover:bg-slate-100">
+                        <td className="text-center border py-1 ">{ind + 1}</td>
+                        <td className="text-center border py-1 ">{data.numberOfPlayers}</td>
+                        <td className="text-center border py-1 ">{data.betAmount}</td>
+                        <td className="text-center border py-1 ">{data.totalBet}</td>
+                        <td className="text-center border py-1 ">{data.netWinnerGain}</td>
+                        <td className="text-center border py-1 ">{data.commution}</td>
+                        <td className="text-center border py-1 ">{data.currRate} % </td>
+                        {/* <td className="text-center border py-1 ">Mon 12 2021</td> */}
+                    </tr>)
              }
              </table>
                 :

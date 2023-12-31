@@ -1,11 +1,15 @@
-# remaining ui features
-    - animation
-    - current number animation
-    - password input type
-    - notification for bet
-    - pause play icon
-# ui test for tv
-    - left nav bar
-    - font size and color
 # logout button
+  - show transaction
+-----------------------
+# remaining ui features
+  - loading ui
+  - animation
+# ui test for tv
+    - font size and color
+    - left nav bar
 # edit profile show
+# finished
+  - current number animation
+  - password input type
+  - notification for bet
+  - pause play icon

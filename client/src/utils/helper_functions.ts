@@ -2,19 +2,19 @@ export const importFiles = async () => {
 
     const filePaths : any = {};
     for(let i = 1; i <= 15; i++){
-      filePaths[`b${i}`] = `../assets/audio/B/B${i}.mp3`
+      filePaths[`b${i}`] = `/audio/B/B${i}.mp3`
     }
     for(let i = 16; i <= 30; i++){
-      filePaths[`i${i}`] = `../assets/audio/I/i${i}.mp3`
+      filePaths[`i${i}`] = `/audio/I/i${i}.mp3`
     }
     for(let i = 31; i <= 45; i++){
-      filePaths[`n${i}`] = `../assets/audio/N/N${i}.mp3`
+      filePaths[`n${i}`] = `/audio/N/N${i}.mp3`
     }
     for(let i = 46; i <= 60; i++){
-      filePaths[`g${i}`] = `../assets/audio/G/G${i}.mp3`
+      filePaths[`g${i}`] = `/audio/G/G${i}.mp3`
     }
     for(let i = 61; i <= 75; i++){
-      filePaths[`o${i}`] = `../assets/audio/0/0${i}.mp3`
+      filePaths[`o${i}`] = `/audio/0/0${i}.mp3`
     }
     const audioDataMap : any = {};
   

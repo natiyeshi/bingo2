@@ -6,5 +6,31 @@ html {
   font-family: 'Roboto', sans-serif;
 
 }
+progress[value] {
+  --color: blue; /* the progress color */
+  --background: lightgrey; /* the background color */
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  width: 500px;
+  margin: 0 10px;
+  border-radius: 10em;
+  background: var(--background);
+}
+progress[value]::-webkit-progress-bar {
+  border-radius: 3em;
+  background: var(--background);
+}
+progress[value]::-webkit-progress-value {
+  border-radius: 3em;
+  background: var(--color);
+}
+progress[value]::-moz-progress-bar {
+  border-radius: 3em;
+  background: var(--color);
+}
+
 @tailwind components;
 @tailwind utilities;

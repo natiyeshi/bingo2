@@ -3,18 +3,17 @@
 import Error from "./error"
 import loadingGif from "../../assets/gif/Rolling-1s-200px.gif"
 
-import { MdNavigateNext as NextIcon } from "react-icons/md";
 import { fetchDealer, getDealer, getDealerError, getDealerLoading, updateDealer } from "../../store/features/dealer/dealerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "../../axios";
 import { AxiosError } from "axios";
-import { changeCharge } from "../../store/features/admin/adminSlice";
 
 interface Props {
     setPayment : Function,
     setShowHistory : Function,
     setShowProfile : Function,
+    setNotify : Function,
 }
 
 interface FormInf {
@@ -22,7 +21,7 @@ interface FormInf {
   numberOfPlayers : number 
 }
 
-const index = ({setPayment,setShowHistory,setShowProfile} : Props) => {
+const index = ({setPayment,setShowHistory,setShowProfile,setNotify} : Props) => {
 
   const dispatch = useDispatch<any>()
   
@@ -36,13 +35,15 @@ const index = ({setPayment,setShowHistory,setShowProfile} : Props) => {
     numberOfPlayers : 0,
   }
   const [form,setForm] = useState(initialData)
-  
+ 
   const logout = async () => {
       try{
         await axios.post("/dealer/logout")
         location.href = "/login"
-      }catch(err){
-        alert("error")
+      }catch(error){
+        let err = error as AxiosError
+        let errMessage : any = err.response?.data
+        setErr(errMessage?.error?.message || "check you connection please!")
       }
     }
 
@@ -61,38 +62,45 @@ const index = ({setPayment,setShowHistory,setShowProfile} : Props) => {
       setLoading(true)
       const res = await axios.post("dealer/bet",form)
       // setSuc("charge completed successfully")
-      dispatch(updateDealer(res.data))
+      const { newData,saveBet } = res.data
+      setNotify({ net : saveBet.netWinnerGain, amount : saveBet.totalBet })
+      dispatch(updateDealer(newData))
       setForm(initialData)
       setPayment(true)
     }catch(error){
+      // setErr("ohh")
       let err = error as AxiosError
       let errMessage : any = err.response?.data
-      setErr(errMessage.error?.message)
+      if(err.response?.status == 401){
+        location.href = "/login"
+      }
+      setErr(errMessage?.error?.message || "check you connection please!")
     }finally{
       setLoading(false)
     }
-
-    
   }
+    // if(error){
+    //   alert("ohhhh")
+    // }
     
     useEffect(()=>{
         dispatch(fetchDealer())
     },[])
 
   return (
-    <div className='absolute flex left-0 right-0 top-0 bottom-0  z-20'>
+    <div className='absolute flex left-0 right-0 top-0  h-[400vh]  z-20'>
         <div className='absolute flex left-0 right-0 top-0 bottom-0  z-10 bg-gray-900 opacity-90'> </div>
         <div className='rounded w-1/2 pb-12 h-fit bg-white z-40 mx-auto mt-[6em] '>
             <nav className="flex py-2 px-7 justify-between bg-slate-800  ">
                 <div className="text-2xl font-semibold text-white capitalize">Bet</div>
                 <ul className="flex gap-3 text-white my-auto capitalize text-sm">
+                  <li onClick={() => setShowProfile((data : boolean) => !data)} className="cursor-pointer duration-300 hover:text-gray-300">Profile</li>
                   <li onClick={() => setShowHistory((data : boolean) => !data)} className="cursor-pointer duration-300 hover:text-gray-300">history</li>
-                  <li onClick={() => setShowProfile((data : boolean) => !data)} className="cursor-pointer duration-300 hover:text-gray-300">Amout</li>
                   <li onClick={logout} className="cursor-pointer duration-300 hover:text-gray-300">Logout</li>
                 </ul>
             </nav>
         <form className="flex flex-col px-12 mt-5 gap-2 capitalize" onSubmit={(e) => e.preventDefault()}>
-           {err && <Error err={err} css="" setErr={setErr}/>}
+           {(err || error)  && <Error err={error || err} css="" setErr={setErr}/>}
            {!isLoading && !error && parseInt(dealersData.amount) < 100 && <Error err={"your account balance is getting low!"} css="" setErr={setErr}/>}
 
            <div className="flex gap-2 w-3/4  justify-between">

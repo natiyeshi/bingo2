@@ -8,6 +8,7 @@ import History from "../history/index";
 import Profile from "../profile/index";
 import Payment from "../components/payment";
 import Confetti from 'react-confetti'
+import Notification from "../components/notification.tsx"
 
 const Index = () => {
 
@@ -17,13 +18,13 @@ const Index = () => {
   const [counter, setCounter] = useState<number>(0);
   const [audioFileNames,setAudioFileNames] = useState<string[]>()
   const [isFullScreen,setIsFullScreen] = useState(false)
-  const [toggleNav,setToggleNav] = useState(true)
   const timeIdRef = useRef<number | null>(null);
   const [currState,setCurrState] = useState<MyStates>(MyStates.loading)
   const [currInd,setCurrInd] = useState(0)
   const [initialData,setInitialData] = useState(getInitialData())
   const [resultIndex,setResultIndex] = useState<ResultIndexType>(zeroIndex)
 
+  const [notify,setNotify] = useState({amount : 0,net : 0})
   const [payment,setPayment] = useState(false)
   const [showHistory,setShowHistory] = useState(false)
   const [showProfile,setShowProfile] = useState(false)
@@ -57,11 +58,13 @@ const Index = () => {
   }
 
   const restart = () => {
+    location.href = "#top"
     setPayment(false)
     setCurrState(MyStates.loaded)
   }
   
   const bingo = () =>{
+    location.href = "#top"
     setCurrInd(0)
     setResultIndex(zeroIndex)
     setCurrState(MyStates.bingo)
@@ -79,6 +82,7 @@ const Index = () => {
   }
   
   const play = async () => {
+    setNotify({ amount : 0, net : 0})
     setCurrState(MyStates.playing)
     curr = currInd;
     currResultIndex = resultIndex;
@@ -129,39 +133,41 @@ const Index = () => {
       setAudioBuffers(buffers);
       setCurrState(MyStates.loaded)
     };
-
+    // if(error){}
     fetchAudioBuffers();
   }, []); 
 
     return (
-        <div className={`h-[100vh] relative flex flex-col overflow-x-hidden ${!payment && "overflow-y-hidden"}`}>
-          {MyStates.bingo == currState && <Confetti />}
-          { currState == MyStates.loading && 
+        <div id="top" className={`h-[100vh] relative flex flex-col overflow-x-hidden ${(false && !payment || showHistory || showProfile) && "overflow-y-hidden"}`}>
+          {MyStates.bingo == currState && <Confetti/>}
+          { currState == MyStates.loading  && 
             <div className='absolute z-40 left-0 top-0 bottom-0 right-0 '>
-                <div className='absolute left-0 right-0 top-0 bottom-0 bg-slate-900 opacity-50'>
+                <div className='absolute left-0 right-0 top-0 bottom-0 bg-slate-900 opacity-90'>
 
                 </div>
                 <div className='flex z-50 justify-center absolute left-0 right-0 top-0 bottom-0 '>
-                    <div className=' mt-[100px]'>
-                      <progress className='w-[300px]' value={counter} max={75} />
+                    <div className=' mt-[100px] flex flex-col'>
+                      {/* {counter} */}
+                      <h1 className='w-full text-center text-white text-3xl font-bold my-3'>Loading</h1>
+                      <progress className='w-[500px]' value={counter} max={75} />
+                      <div className='flex gap-1 justify-center text-white my-3'>
+                        <p>
+                          if the page is not responsive please refresh
+                        </p>
+                        <button className='text-blue-800 font-bold' onClick={() => location.reload()}>refresh</button>
+                      </div>
                     </div>
                 </div>
             </div>
           }
          {showHistory && <History setShowHistory={setShowHistory}  />}
          {showProfile && <Profile setShowProfile={setShowProfile}  />}
-         {currState != MyStates.loading && !payment && <Payment setPayment={setPayment} setShowProfile={setShowProfile} setShowHistory={setShowHistory}/>}
+         {currState != MyStates.loading && !payment && <Payment setPayment={setPayment} setNotify={setNotify} setShowProfile={setShowProfile} setShowHistory={setShowHistory}/>}
           <div className={`${currState == MyStates.loading && "blur-[2em]" } relative`}>
-              {/* <div className='absolute right-10 top-10 px-3 py-5 rounded-xl shadow-lg z-20 flex flex-col bg-green-200'>
-                <div>
-        
-                </div>
-                <div>
-                  <div>bet 100 birr</div>
-                  <div>net win 2100 birr</div>
-                </div>
-              </div> */}
-              <Nav setIsFullScreen={setIsFullScreen} isFullScreen={isFullScreen} setShowHistory={setShowHistory} setShowProfile={setShowProfile} toggleNav={toggleNav} toggleScreen={toggleScreen} />
+              {notify.amount != 0 && 
+                <Notification notify={notify} setNotify={setNotify} />
+              }
+              <Nav setIsFullScreen={setIsFullScreen} isFullScreen={isFullScreen} setShowHistory={setShowHistory} setShowProfile={setShowProfile}  toggleScreen={toggleScreen} />
               <div className={` flex text-white relative  bg-red-300 `}>
                   <Game 
                       play={play} 

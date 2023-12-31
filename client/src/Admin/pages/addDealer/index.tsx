@@ -108,11 +108,11 @@ const index = () => {
             </div>
             <div className='flex gap-1 capitalize flex-col'>
                 <label htmlFor="" className='my-auto'>Password</label>
-                <input type="text" placeholder='Password' value={form.password} name='password' onChange={onFormchange} className='px-2 py-1 outline-none border  rounded' />
+                <input type="password" placeholder='Password' value={form.password} name='password' onChange={onFormchange} className='px-2 py-1 outline-none border  rounded' />
             </div>
             <div className='flex gap-1 capitalize flex-col'>
                 <label htmlFor="" className='my-auto'>Confirm</label>
-                <input type="text" placeholder='Confirm' value={form.confirm} name='confirm' onChange={onFormchange} className='px-2 py-1  outline-none border rounded' />
+                <input type="password" placeholder='Confirm' value={form.confirm} name='confirm' onChange={onFormchange} className='px-2 py-1  outline-none border rounded' />
             </div>
             
             <div className='flex justify-center my-2'>

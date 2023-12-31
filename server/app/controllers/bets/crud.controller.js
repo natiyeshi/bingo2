@@ -5,7 +5,10 @@ const prisma = new PrismaClient()
 
 export const getAllBets = async (req,res,next) => {
     try{
-        const bets = await prisma.bets.findMany({ include : { dealers : true }  })
+        const bets = await prisma.bets.findMany({ 
+            include : { dealers : true },
+            orderBy: { date: 'desc' }
+        })
         res.json(bets)
     }catch(err){
         next(err)
@@ -17,7 +20,10 @@ export const getDealerBet = async (req,res,next) => {
     try{
         const { id } = req.body
         if(!id) throw createError.BadRequest()
-        const charges = await prisma.bets.findMany({ where : { dealerId : id }})
+        const charges = await prisma.bets.findMany({
+            where : { dealerId : id },
+            orderBy: { date: 'desc' }
+        })
         res.json(charges)
     }catch(err){
         next(err)

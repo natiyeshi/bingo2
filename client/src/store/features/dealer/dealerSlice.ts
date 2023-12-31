@@ -47,6 +47,10 @@ const dealerSlice = createSlice({
             builder.addCase(fetchDealer.rejected, (state, action) => {
               state.isLoading = false
               state.error = action.error?.message || "something goes wrong"
+              if(action.error.message == "Request failed with status code 401"){
+                Cookies.set("access_token","")
+                location.href = "/login"
+              }
             })
           },
     })

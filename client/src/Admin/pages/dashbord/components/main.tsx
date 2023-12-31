@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { IoSettingsOutline as SettingIcon } from "react-icons/io5";
-import { CiEdit as EditIcon} from "react-icons/ci";
 import Setting from "../../dealerSetting"
-import axios from "../../../../axios"
-import { AxiosError } from "axios";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { fetchDealers,getDealers, getError, getLoading } from "../../../../store/features/admin/adminSlice"
@@ -13,7 +9,6 @@ interface Props{
 }
 
 const main = ({  } : Props) => {
-  const navigator = useNavigate()
   const dispatch = useDispatch<any>()
   
   const dealersData = useSelector(getDealers)
@@ -41,7 +36,6 @@ const main = ({  } : Props) => {
                     <td className="py-2 border border-gray-100 text-center">First Name</td>
                     <td className="py-2 border border-gray-100 text-center">Last Name</td>
                     <td className="py-2 border border-gray-100 text-center">username</td>
-                    <td className="py-2 border border-gray-100 text-center">password</td>
                     <td className="py-2 border border-gray-100 text-center">balance</td>
                     {/* <td className="py-2 border border-gray-100 text-center">Edit</td> */}
                     <td className="py-2 border border-gray-100 text-center">Setting</td>
@@ -53,8 +47,7 @@ const main = ({  } : Props) => {
                             <td className="py-2 border border-gray-100 text-center">{data.firstName}</td>
                             <td className="py-2 border border-gray-100 text-center">{data.lastName}</td>
                             <td className="py-2 border border-gray-100 text-center">{data.username}</td>
-                            <td className="py-2 border border-gray-100 text-center">password</td>
-                            <td className="py-2 border border-gray-100 text-center">{data.amount}</td>
+                            <td className="py-2 border border-gray-100 text-center">{parseFloat(data.amount).toFixed(2)}</td>
                             {/* <td className="py-2 border border-gray-100 text-center">
                                 <EditIcon className="m-auto text-lg hover:text-blue-600 cursor-pointer"/>
                             </td> */}

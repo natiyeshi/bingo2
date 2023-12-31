@@ -61,7 +61,7 @@ const index = () => {
             </div>
             <div className="flex gap-2  justify-between">
                   <label htmlFor="" className="py-2">Password</label>
-                  <input type="text" disabled={loading} onChange={({target}) => setPassword(target.value)}  placeholder="players" className="px-2 border py-1 rounded-lg" />
+                  <input type="password" disabled={loading} onChange={({target}) => setPassword(target.value)}  placeholder="players" className="px-2 border py-1 rounded-lg" />
             </div>
             <div className="flex flex-row-reverse  mt-6">
                     <button onClick={login} disabled={loading} className={`${loading ? "bg-gray-600 cursor-wait" : "bg-slate-800"}   w-fit px-10 py-1 rounded-lg text-white`}>Login</button>

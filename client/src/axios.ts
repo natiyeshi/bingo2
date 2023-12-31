@@ -1,5 +1,6 @@
-import axios,{ AxiosError as AxiosErrors } from "axios"
+import axios from "axios"
 
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:4000'
+const baseURL = "http://localhost:4000";
+axios.defaults.baseURL = baseURL
 export default axios
